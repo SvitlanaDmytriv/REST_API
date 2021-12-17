@@ -1,7 +1,7 @@
 const { getContactById } = require('../../model/contacts/contacts')
 
 const getContactByIdController = async (req, res) => {
-  const contactId = Number(req.params.contactId)
+  const contactId = req.params.contactId
   const contactItem = await getContactById(contactId)
 
   if (!contactItem) {

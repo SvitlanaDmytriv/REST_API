@@ -1,7 +1,7 @@
 const { removeContact } = require('../../model/contacts/contacts')
 
 const deleteContactByIdController = async (req, res) => {
-  const contactId = Number(req.params.contactId)
+  const contactId = req.params.contactId
   const delContact = await removeContact(contactId)
 
   if (!delContact) {

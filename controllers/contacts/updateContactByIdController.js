@@ -1,7 +1,7 @@
 const { updateContact } = require('../../model/contacts/contacts')
 
 const updateContactByIdController = async (req, res) => {
-  const contactId = Number(req.params.contactId)
+  const contactId = req.params.contactId
 
   if (!req.body) {
     return res.status(400).json({ message: 'missing fields' })
