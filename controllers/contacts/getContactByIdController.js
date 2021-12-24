@@ -1,14 +1,23 @@
-const { getContactById } = require('../../model/contacts/contacts')
+const { getContactById } = require('../../services/contacts/contacts')
+const HttpCode = require('../../lib/constants')
 
 const getContactByIdController = async (req, res) => {
   const contactId = req.params.contactId
   const contactItem = await getContactById(contactId)
 
   if (!contactItem) {
-    return res.status(404).json({ message: 'Not found' })
+    return res
+      .status(HttpCode.NOT_FOUND)
+      .json({ status: 'error', code: HttpCode.NOT_FOUND, message: 'Not found' })
   }
 
-  return res.status(200).json(contactItem)
+  return res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    data: {
+      contacts: contactItem,
+    },
+  })
 }
 
 module.exports = getContactByIdController
