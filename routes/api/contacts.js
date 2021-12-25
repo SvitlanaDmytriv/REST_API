@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-require('dotenv').config()
 
 const {
   validateCreate,
   validateUpdate,
+  validateUpdateFavorite,
 } = require('../../middlewares/validationMiddleware')
 
 const {
@@ -15,24 +15,20 @@ const {
   deleteContactByIdController,
 } = require('../../controllers/contacts')
 
-router.get('/', async (req, res, next) => {
-  getContactController(req, res)
-})
+router.get('/', getContactController)
 
-router.get('/:contactId', async (req, res, next) => {
-  getContactByIdController(req, res)
-})
+router.get('/:contactId', getContactByIdController)
 
-router.post('/', validateCreate, async (req, res, next) => {
-  addContactController(req, res)
-})
+router.post('/', validateCreate, addContactController)
 
-router.delete('/:contactId', async (req, res, next) => {
-  deleteContactByIdController(req, res)
-})
+router.delete('/:contactId', deleteContactByIdController)
 
-router.put('/:contactId', validateUpdate, async (req, res, next) => {
-  updateContactByIdController(req, res)
-})
+router.put('/:contactId', validateUpdate, updateContactByIdController)
+
+router.patch(
+  '/:contactId/favorite',
+  validateUpdateFavorite,
+  updateContactByIdController,
+)
 
 module.exports = router
