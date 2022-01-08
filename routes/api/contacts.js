@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
+const guard = require('../../middlewares/guard')
 
 const {
   validateCreate,
   validateUpdate,
   validateUpdateFavorite,
-} = require('../../middlewares/validationMiddleware')
+} = require('../../middlewares/validationContactsMiddleware')
 
 const {
   getContactController,
@@ -15,19 +16,19 @@ const {
   deleteContactByIdController,
 } = require('../../controllers/contacts')
 
-router.get('/', getContactController)
+router.get('/', guard, getContactController)
 
-router.get('/:contactId', getContactByIdController)
+router.get('/:contactId', guard, getContactByIdController)
 
-router.post('/', validateCreate, addContactController)
+router.post('/', [guard, validateCreate], addContactController)
 
-router.delete('/:contactId', deleteContactByIdController)
+router.delete('/:contactId', guard, deleteContactByIdController)
 
-router.put('/:contactId', validateUpdate, updateContactByIdController)
+router.put('/:contactId', [guard, validateUpdate], updateContactByIdController)
 
 router.patch(
   '/:contactId/favorite',
-  validateUpdateFavorite,
+  [guard, validateUpdateFavorite],
   updateContactByIdController,
 )
 

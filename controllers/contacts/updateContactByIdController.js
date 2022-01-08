@@ -1,7 +1,8 @@
-const { updateContact } = require('../../services/contacts/contacts')
-const HttpCode = require('../../lib/constants')
+const { updateContact } = require('../../services/contacts')
+const { HttpCode } = require('../../lib/constants')
 
 const updateContactByIdController = async (req, res) => {
+  const { id: userId } = req.user
   const contactId = req.params.contactId
 
   if (!req.body) {
@@ -12,7 +13,7 @@ const updateContactByIdController = async (req, res) => {
     })
   }
 
-  const updateContactById = await updateContact(contactId, req.body)
+  const updateContactById = await updateContact(userId, contactId, req.body)
 
   if (!updateContactById) {
     return res
