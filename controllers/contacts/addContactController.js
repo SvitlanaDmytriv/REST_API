@@ -1,7 +1,8 @@
-const { addContact } = require('../../services/contacts/contacts')
-const HttpCode = require('../../lib/constants')
+const { addContact } = require('../../services/contacts')
+const { HttpCode } = require('../../lib/constants')
 
 const addContactController = async (req, res) => {
+  const { id: userId } = req.user
   const { name, email, phone } = req.body
 
   if (!name || !email || !phone) {
@@ -12,7 +13,7 @@ const addContactController = async (req, res) => {
     })
   }
 
-  const newContact = await addContact(req.body)
+  const newContact = await addContact(userId, req.body)
 
   if (!newContact) {
     return res.status(HttpCode.BAD_REQUEST).json({

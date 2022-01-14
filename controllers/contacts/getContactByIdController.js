@@ -1,9 +1,10 @@
-const { getContactById } = require('../../services/contacts/contacts')
-const HttpCode = require('../../lib/constants')
+const { getContactById } = require('../../services/contacts')
+const { HttpCode } = require('../../lib/constants')
 
 const getContactByIdController = async (req, res) => {
+  const { id: userId } = req.user
   const contactId = req.params.contactId
-  const contactItem = await getContactById(contactId)
+  const contactItem = await getContactById(userId, contactId)
 
   if (!contactItem) {
     return res
