@@ -9,12 +9,19 @@ class AuthService {
   }
 
   async create(body) {
-    const { id, name, email, subscription } = await UsersRepository.create(body)
+    const {
+      id,
+      name,
+      email,
+      subscription,
+      avatarURL,
+    } = await UsersRepository.create(body)
     return {
       id,
       name,
       email,
       subscription,
+      avatarURL,
     }
   }
 
