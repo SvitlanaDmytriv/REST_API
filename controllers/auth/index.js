@@ -1,5 +1,6 @@
 const AuthService = require('../../services/auth')
 const { HttpCode } = require('../../lib/constants')
+const { FileStorage, LocalStorage } = require('../../services/file-storage')
 
 const authService = new AuthService()
 
@@ -63,4 +64,21 @@ const updateSubscription = async (req, res, next) => {
   })
 }
 
-module.exports = { registration, login, logout, getCurrent, updateSubscription }
+const uploadAvatar = async (req, res, next) => {
+  const uploadAvatar = new FileStorage(LocalStorage, req.file, req.user)
+  const avatarUrl = await uploadAvatar.updateAvatar()
+  res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    data: { avatarUrl },
+  })
+}
+
+module.exports = {
+  registration,
+  login,
+  logout,
+  getCurrent,
+  updateSubscription,
+  uploadAvatar,
+}
