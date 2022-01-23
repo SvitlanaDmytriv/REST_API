@@ -16,6 +16,8 @@ const {
   getCurrent,
   updateSubscription,
   uploadAvatar,
+  verifyUser,
+  repeatEmailForVerifyUser,
 } = require('../../controllers/auth/index')
 
 const guard = require('../../middlewares/guard')
@@ -37,5 +39,8 @@ router.get('/logout', guard, logout)
 router.get('/current', validateToken, guard, getCurrent)
 
 router.patch('/avatars', guard, upload.single('avatar'), uploadAvatar)
+
+router.get('/verify:verificationToken', verifyUser)
+router.post('/verify', repeatEmailForVerifyUser)
 
 module.exports = router

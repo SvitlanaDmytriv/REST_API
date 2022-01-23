@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const gravatar = require('gravatar')
-
+const { randomUUID } =require('crypto');
 const { Schema, model, SchemaTypes } = mongoose
 const { Roles } = require('../lib/constants')
 
@@ -34,6 +34,15 @@ const userSchema = new Schema(
       default: function () {
         return gravatar.url(this.email, { s: 250 }, true)
       },
+    },
+    verify: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: randomUUID,
     },
     owner: {
       type: SchemaTypes.ObjectId,

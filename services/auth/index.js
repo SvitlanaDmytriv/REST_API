@@ -15,6 +15,7 @@ class AuthService {
       email,
       subscription,
       avatarURL,
+      verificationToken,
     } = await UsersRepository.create(body)
     return {
       id,
@@ -22,6 +23,7 @@ class AuthService {
       email,
       subscription,
       avatarURL,
+      verificationToken,
     }
   }
 
@@ -32,6 +34,17 @@ class AuthService {
       return null
     }
     return user
+  }
+
+  async isUserVerified(verificationToken) {
+    const userByVerTOken = await UsersRepository.findByVerificationToken(
+      verificationToken,
+    )
+    const status = !!userByVerTOken
+    if (status) {
+      await UsersRepository.updateVerify(status)
+    }
+    return status
   }
 
   async updateUserSubscription(id, subscription) {
